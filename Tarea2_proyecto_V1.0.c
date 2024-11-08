@@ -21,10 +21,11 @@ struct fantasmas{
 };
 
 
-void pos_inicial(int largo, int ancho, int tablero[largo][ancho]){
+void pos_inicial(int largo, int ancho, int tablero[largo][ancho],struct posicion *PM , struct fantasmas *All_enemies){
     int cuarto=largo/4;
     int posX=rand()%cuarto,posY=rand()%cuarto;
 }
+
 
 
 int mov_Fanta(int largo, int ancho, int tablero[largo][ancho], struct posicion *fant ){
@@ -137,9 +138,16 @@ int main(){
     fantasmas_t Fant_all;
     int tablero[10][10];//Esto se pide del anterior tablero
     char movimiento;
+    int GameOver=0
     while (1){
         scanf("%c",&movimiento);
-        if (mov_Pacman(10 ,10 ,tablero[10][10],movimiento ,&Pm)) break; //modo de pausar el juego, la funcion 
-        mov_Fanta(&Fant_all->Ft1);
+        do{
+        GameOver = mov_Pacman(10 ,10 ,tablero[10][10],movimiento ,&Pm) break; //modo de pausar el juego, la funcion tiene retorno 1 y 0
+        mov_Fanta(&(Fant_all.Ft1));
+        mov_Fanta(&(Fant_all.Ft2));
+        mov_Fanta(&(Fant_all.Ft3));
+        mov_Fanta(&(Fant_all.Ft4));
+
+        } while (GameOver || );
     }
 }
