@@ -28,7 +28,7 @@ void pos_inicial(int largo, int ancho, int tablero[largo][ancho],struct posicion
 
 
 
-int mov_Fanta(int largo, int ancho, int tablero[largo][ancho], struct posicion *fant ){
+int mov_Fanta(int largo, int ancho, int tablero[largo][ancho], struct posicion *fant, difficult){
     int mov_aleatorio = randint()%4;
 
     switch (mov_aleatorio){
@@ -76,7 +76,7 @@ int mov_Fanta(int largo, int ancho, int tablero[largo][ancho], struct posicion *
     default:
         break;
     }
-
+    
     return 0;
 }
 
@@ -139,6 +139,7 @@ int main(){
     int tablero[10][10];//Esto se pide del anterior tablero
     char movimiento;
     int GameOver=0
+    int difficult=1// 1 2 o 3, que el es el tiempo de espera a acción 
     while (1){
         scanf("%c",&movimiento);
         do{
@@ -147,7 +148,8 @@ int main(){
         mov_Fanta(&(Fant_all.Ft2));
         mov_Fanta(&(Fant_all.Ft3));
         mov_Fanta(&(Fant_all.Ft4));
+        time(difficult);
 
-        } while (GameOver || );
+        } while (GameOver || ); //funcion verificar coordenadas
     }
 }
