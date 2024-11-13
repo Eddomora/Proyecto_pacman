@@ -20,6 +20,12 @@ struct fantasmas{
     struct posicion Ft4;
 };
 
+int verificar(struct posicion *Pman, struct posicion *Fnta){
+    if ((Pman->y)==(Fnta->y) && (Pman->y)==(Fnta->y))
+        return 1;
+
+    return 0;
+}
 
 void pos_inicial(int largo, int ancho, int tablero[largo][ancho],struct posicion *PM , struct fantasmas *All_enemies){
     int cuarto=largo/4;
