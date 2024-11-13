@@ -145,7 +145,7 @@ int main(){
     int tablero[10][10];//Esto se pide del anterior tablero
     char movimiento;
     int GameOver=0
-    int difficult=1// 1 2 o 3, que el es el tiempo de espera a acción 
+    int difficult=1// 1 2 o 3, que el es el tiempo de espera a acción, o colocar el stime(), que mide en milisegundos en vez de segundos
     while (1){
         scanf("%c",&movimiento);
         do{
