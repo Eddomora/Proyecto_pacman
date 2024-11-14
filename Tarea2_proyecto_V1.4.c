@@ -46,7 +46,7 @@ void pos_inicial(int largo, int ancho, int tablero[largo][ancho],struct posicion
 
 
 int mov_Fanta(int largo, int ancho, int tablero[largo][ancho], struct posicion *fant ){
-    int mov_aleatorio = randint()%4;
+    int mov_aleatorio = rand()%4;
 
     switch (mov_aleatorio){
 
@@ -160,12 +160,12 @@ int main(){
     while (1){
         scanf("%c",&movimiento);
         do{
-        GameOver = mov_Pacman(10 ,10 ,tablero[10][10],movimiento ,&Pm) break; //modo de pausar el juego, la funcion tiene retorno 1 y 0
-        mov_Fanta(&(Fant_all.Ft1));
-        mov_Fanta(&(Fant_all.Ft2));
-        mov_Fanta(&(Fant_all.Ft3));
-        mov_Fanta(&(Fant_all.Ft4));
-        usleep(difficult);
+        GameOver = mov_Pacman(10 ,10 ,tablero,movimiento ,&Pm); //modo de pausar el juego, la funcion tiene retorno 1 y 0
+        mov_Fanta(10,10,tablero,&(Fant_all.Ft1));
+        mov_Fanta(10,10,tablero,&(Fant_all.Ft2));
+        mov_Fanta(10,10,tablero,&(Fant_all.Ft3));
+        mov_Fanta(10,10,tablero,&(Fant_all.Ft4));
+        sleep(difficult);
         } while (GameOver || verificar_todos(&Pm,&Fant_all));
         break;
     }
