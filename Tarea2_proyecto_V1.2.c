@@ -20,12 +20,23 @@ struct fantasmas{
     struct posicion Ft4;
 };
 
-int verificar(struct posicion *Pman, struct posicion *Fnta){
-    if ((Pman->y)==(Fnta->y) && (Pman->y)==(Fnta->y))
-        return 1;
+int verificar_todos(struct posicion *Pman, struct fantasmas *Enemys){
 
+    if ((Pman->x == Enemys->Ft1.x) && (Pman->y == Enemys->Ft1.y)) {
+        return 1;
+    }
+    if ((Pman->x == Enemys->Ft2.x) && (Pman->y == Enemys->Ft2.y)) {
+        return 1;
+    }
+    if ((Pman->x == Enemys->Ft3.x) && (Pman->y == Enemys->Ft3.y)) {
+        return 1;
+    }
+    if ((Pman->x == Enemys->Ft4.x) && (Pman->y == Enemys->Ft4.y)) {
+        return 1;
+    }
     return 0;
 }
+
 
 void pos_inicial(int largo, int ancho, int tablero[largo][ancho],struct posicion *PM , struct fantasmas *All_enemies){
     int cuarto=largo/4;
@@ -34,7 +45,7 @@ void pos_inicial(int largo, int ancho, int tablero[largo][ancho],struct posicion
 
 
 
-int mov_Fanta(int largo, int ancho, int tablero[largo][ancho], struct posicion *fant, difficult){
+int mov_Fanta(int largo, int ancho, int tablero[largo][ancho], struct posicion *fant ){
     int mov_aleatorio = randint()%4;
 
     switch (mov_aleatorio){
@@ -82,7 +93,7 @@ int mov_Fanta(int largo, int ancho, int tablero[largo][ancho], struct posicion *
     default:
         break;
     }
-    
+
     return 0;
 }
 
@@ -144,8 +155,8 @@ int main(){
     fantasmas_t Fant_all;
     int tablero[10][10];//Esto se pide del anterior tablero
     char movimiento;
-    int GameOver=0
-    int difficult=1// 1 2 o 3, que el es el tiempo de espera a acción, o colocar el stime(), que mide en milisegundos en vez de segundos
+    int GameOver=0;
+    int difficult=1;// 1 2 o 3, que el es el tiempo de espera a acción, o colocar el usleep(), que mide en milisegundos en vez de segundos
     while (1){
         scanf("%c",&movimiento);
         do{
@@ -154,8 +165,8 @@ int main(){
         mov_Fanta(&(Fant_all.Ft2));
         mov_Fanta(&(Fant_all.Ft3));
         mov_Fanta(&(Fant_all.Ft4));
-        time(difficult);
-
-        } while (GameOver || ); //funcion verificar coordenadas
+        usleep(difficult);
+        } while (GameOver || verificar_todos(&Pm,&Fant_all));
+        break;
     }
 }
