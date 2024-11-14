@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <time.h> 
 #include <ctype.h>
+#include <unistd.h> //para funcion sleep()
+//#include <windows.h> esto sirve para ocupar 
 
 #define Pacman 3;
 #define Fantasma 4;
@@ -165,8 +167,9 @@ int main(){
         mov_Fanta(10,10,tablero,&(Fant_all.Ft2));
         mov_Fanta(10,10,tablero,&(Fant_all.Ft3));
         mov_Fanta(10,10,tablero,&(Fant_all.Ft4));
-        sleep(difficult);
+        sleep(difficult); //esta se debe modificar segun el sistema operativo que se ocupe para compilar
         } while (GameOver || verificar_todos(&Pm,&Fant_all));
         break;
     }
+    return 0;
 }
