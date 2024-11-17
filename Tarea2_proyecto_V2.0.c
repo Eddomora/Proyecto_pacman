@@ -2,12 +2,12 @@
 #include <stdlib.h>
 #include <time.h> 
 #include <ctype.h>
-#include <unistd.h> //para funcion sleep()
+#include <unistd.h>
 //#include <windows.h> esto sirve para ocupar 
 
-#define Pacman 3;
-#define Fantasma 4;
-#define max 10000;
+#define Pacman 3
+#define Fantasma 4
+#define max 10000
 
 struct posicion{
     int x;
@@ -107,7 +107,7 @@ int mov_Pacman(int largo, int ancho ,int tablero[largo][ancho] ,int move ,struct
     case 'a':
         if (tablero[pacm->y][((pacm->x)-1+ancho)%ancho]==1 || tablero[pacm->y][((pacm->x)-1+ancho)%ancho]==0){
             tablero[pacm->y][pacm->x]=0;
-            if (tablero[pacm->y][((pacm->x)-1+ancho)%ancho]==1) pacm->extra++; 
+            if (tablero[pacm->y][((pacm->x)-1+ancho)%ancho]==1) (pacm->extra)++; 
             pacm->x = ((pacm->x)-1+ancho)%ancho;
             tablero[pacm->y][pacm->x]=Pacman;
         }
@@ -116,7 +116,7 @@ int mov_Pacman(int largo, int ancho ,int tablero[largo][ancho] ,int move ,struct
     case 'd':
         if (tablero[pacm->y][((pacm->x)+1+ancho)%ancho]==1 || tablero[pacm->y][((pacm->x)+1+ancho)%ancho]==0){
             tablero[pacm->y][pacm->x]=0;
-            if (tablero[pacm->y][((pacm->x)+1+ancho)%ancho]==1) pacm->extra++; 
+            if (tablero[pacm->y][((pacm->x)+1+ancho)%ancho]==1) (pacm->extra)++; 
             pacm->x = ((pacm->x)+1+ancho)%ancho;
             tablero[pacm->y][pacm->x]=Pacman;
         }
@@ -125,7 +125,7 @@ int mov_Pacman(int largo, int ancho ,int tablero[largo][ancho] ,int move ,struct
     case 'w':
         if (tablero[((pacm->y)-1+largo)%largo][pacm->x]==1 || tablero[((pacm->y)-1+largo)%largo][pacm->x]==0){
             tablero[pacm->y][pacm->x]=0;
-            if (tablero[((pacm->y)-1+largo)%largo][pacm->x]==1) pacm->extra++; 
+            if (tablero[((pacm->y)-1+largo)%largo][pacm->x]==1) (pacm->extra)++; 
             pacm->y = ((pacm->y)-1+largo)%largo;
             tablero[pacm->y][pacm->x]=Pacman;
         }
@@ -134,7 +134,7 @@ int mov_Pacman(int largo, int ancho ,int tablero[largo][ancho] ,int move ,struct
     case 's':
         if (tablero[((pacm->y)+1+largo)%largo][pacm->x]==1 || tablero[((pacm->y)+1+largo)%largo][pacm->x]==0){
             tablero[pacm->y][pacm->x]=0;
-            if (tablero[((pacm->y)+1+largo)%largo][pacm->x]==1) pacm->extra++; 
+            if (tablero[((pacm->y)+1+largo)%largo][pacm->x]==1) (pacm->extra)++; 
             pacm->y = ((pacm->y)+1+largo)%largo;
             tablero[pacm->y][pacm->x]=Pacman;
         }
@@ -148,6 +148,20 @@ int mov_Pacman(int largo, int ancho ,int tablero[largo][ancho] ,int move ,struct
     return 1;
 }
 
+void imprimir(int L, int A, int tablero[L][A]){
+    printf("\n\n\n\n\n\n");
+    for (int i = 0; i < L; i++)
+    {
+        for (int j = 0; j < A; j++)
+        {
+            printf("%d ",tablero[i][j]);
+        }
+        printf("\n");
+        
+    }
+    printf("\n\n");
+}
+
 typedef struct posicion posicion_t;
 typedef struct fantasmas fantasmas_t;
 
@@ -155,21 +169,21 @@ int main(){
     srand(time(0));
     posicion_t Pm;
     fantasmas_t Fant_all;
-    int tablero[10][10];//Esto se pide del anterior tablero
-    char movimiento;
+    int tablero[10][10]={};//Esto se pide del anterior tablero
+    tablero[3][3]=Pacman;
+    Pm.x=3;
+    Pm.y=3;
+    char mov;
     int GameOver=0;
     int difficult=1;// 1 2 o 3, que el es el tiempo de espera a acción, o colocar el usleep(), que mide en milisegundos en vez de segundos
-    while (1){
-        scanf("%c",&movimiento);
-        do{
-        GameOver = mov_Pacman(10 ,10 ,tablero,movimiento ,&Pm); //modo de pausar el juego, la funcion tiene retorno 1 y 0
+    while (!GameOver) {
+        imprimir(10, 10, tablero);
+        scanf(" %c", &mov);
+        GameOver = !mov_Pacman(10, 10, tablero, mov, &Pm);
         mov_Fanta(10,10,tablero,&(Fant_all.Ft1));
         mov_Fanta(10,10,tablero,&(Fant_all.Ft2));
         mov_Fanta(10,10,tablero,&(Fant_all.Ft3));
         mov_Fanta(10,10,tablero,&(Fant_all.Ft4));
-        sleep(difficult); //esta se debe modificar segun el sistema operativo que se ocupe para compilar
-        } while (GameOver || verificar_todos(&Pm,&Fant_all));
-        break;
+        sleep(difficult);
     }
-    return 0;
 }
