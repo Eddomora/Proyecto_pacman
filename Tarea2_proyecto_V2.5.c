@@ -22,19 +22,22 @@ struct fantasmas{
     struct posicion Ft4;
 };
 
-int verificar_todos(struct posicion *Pman, struct fantasmas *Enemys){
-
-    if ((Pman->x == Enemys->Ft1.x) && (Pman->y == Enemys->Ft1.y)) {
+int verificar(struct posicion *Pman, struct posicion *Ftma, int fnt_mov){ 
+    switch (fnt_mov){
+    case 0:
+        if ((Pman->x == Ftma->x) && (Pman->y == Ftma->y-1))
         return 1;
-    }
-    if ((Pman->x == Enemys->Ft2.x) && (Pman->y == Enemys->Ft2.y)) {
+    case 1:
+        if ((Pman->x == Ftma->x) && (Pman->y == Ftma->y+1))
         return 1;
-    }
-    if ((Pman->x == Enemys->Ft3.x) && (Pman->y == Enemys->Ft3.y)) {
+    case 2:
+        if ((Pman->x == Ftma->x+1) && (Pman->y == Ftma->y))
         return 1;
-    }
-    if ((Pman->x == Enemys->Ft4.x) && (Pman->y == Enemys->Ft4.y)) {
+    case 3:
+        if ((Pman->x == Ftma->x-1) && (Pman->y == Ftma->y))
         return 1;
+    default:
+        break;
     }
     return 0;
 }
@@ -47,13 +50,15 @@ void pos_inicial(int largo, int ancho, int tablero[largo][ancho],struct posicion
 
 
 
-int mov_Fanta(int largo, int ancho, int tablero[largo][ancho], struct posicion *fant ){
+int mov_Fanta(int largo, int ancho, int tablero[largo][ancho], struct posicion *fant, struct posicion *Pma ){
     int mov_aleatorio = rand()%4;
 
     switch (mov_aleatorio){
 
     case 0:
-        if (tablero[((fant->y)-1+largo)%largo][fant->x]==1 || tablero[((fant->y)-1+largo)%largo][fant->x]==0){
+        if (verificar(Pma, fant, 0)){
+            return 0;
+        } else if (tablero[((fant->y)-1+largo)%largo][fant->x]==1 || tablero[((fant->y)-1+largo)%largo][fant->x]==0){
             tablero[fant->y][fant->x]= fant->extra;
             if (tablero[((fant->y)-1+largo)%largo][fant->x]==1) fant->extra=1; 
             else fant->extra=0;
@@ -63,7 +68,10 @@ int mov_Fanta(int largo, int ancho, int tablero[largo][ancho], struct posicion *
         break;
 
     case 1:
-        if (tablero[((fant->y)+1+largo)%largo][fant->x]==1 || tablero[((fant->y)+1+largo)%largo][fant->x]==0){
+
+        if (verificar(Pma, fant, 1)){
+            return 0;
+        } else if (tablero[((fant->y)+1+largo)%largo][fant->x]==1 || tablero[((fant->y)+1+largo)%largo][fant->x]==0){
             tablero[fant->y][fant->x]= fant->extra;
             if (tablero[((fant->y)+1+largo)%largo][fant->x]==1) fant->extra=1; 
             else fant->extra=0;
@@ -73,7 +81,9 @@ int mov_Fanta(int largo, int ancho, int tablero[largo][ancho], struct posicion *
         break;
 
     case 2:
-        if (tablero[fant->y][((fant->x)+1+ancho)%ancho]==1 || tablero[fant->y][((fant->x)+1+ancho)%ancho]==0){
+        if (verificar(Pma, fant, 2)){
+            return 0;
+        } else if (tablero[fant->y][((fant->x)+1+ancho)%ancho]==1 || tablero[fant->y][((fant->x)+1+ancho)%ancho]==0){
             tablero[fant->y][fant->x]= fant->extra;
             if (tablero[fant->y][((fant->x)+1+ancho)%ancho]==1) fant->extra=1; 
             else fant->extra=0;
@@ -83,7 +93,9 @@ int mov_Fanta(int largo, int ancho, int tablero[largo][ancho], struct posicion *
         break;
 
     case 3:
-        if (tablero[fant->y][((fant->x)-1+ancho)%ancho]==1 || tablero[fant->y][((fant->x)-1+ancho)%ancho]==0){
+        if (verificar(Pma, fant, 3)){
+            return 0;
+        } else if (tablero[fant->y][((fant->x)-1+ancho)%ancho]==1 || tablero[fant->y][((fant->x)-1+ancho)%ancho]==0){
             tablero[fant->y][fant->x]= fant->extra;
             if (tablero[fant->y][((fant->x)-1+ancho)%ancho]==1) fant->extra=1; 
             else fant->extra=0;
@@ -96,7 +108,7 @@ int mov_Fanta(int largo, int ancho, int tablero[largo][ancho], struct posicion *
         break;
     }
 
-    return 0;
+    return 1;
 }
 
 int mov_Pacman(int largo, int ancho ,int tablero[largo][ancho] ,int move ,struct posicion *pacm ){
@@ -169,21 +181,33 @@ int main(){
     srand(time(0));
     posicion_t Pm;
     fantasmas_t Fant_all;
-    int tablero[10][10]={};//Esto se pide del anterior tablero
-    tablero[3][3]=Pacman;
-    Pm.x=3;
-    Pm.y=3;
-    char mov;
+    int tablero[10][10]={0};//Esto se pide del anterior tablero
+    tablero[3][3]=Pacman; //Esto igual
+//Todo esto igual
+    Pm.x=3; Pm.y=3; Pm.extra=0;
+
+    Fant_all.Ft1.x=6; Fant_all.Ft1.y=6; Fant_all.Ft1.extra=1;
+    Fant_all.Ft2.x=7; Fant_all.Ft2.y=6; Fant_all.Ft2.extra=1;
+    Fant_all.Ft3.x=1; Fant_all.Ft3.y=6; Fant_all.Ft3.extra=1;
+    Fant_all.Ft4.x=5; Fant_all.Ft4.y=6; Fant_all.Ft4.extra=1;
+
+    tablero[Fant_all.Ft1.y][Fant_all.Ft1.x] = Fantasma;
+    tablero[Fant_all.Ft2.y][Fant_all.Ft2.x] = Fantasma;
+    tablero[Fant_all.Ft3.y][Fant_all.Ft3.x] = Fantasma;
+    tablero[Fant_all.Ft4.y][Fant_all.Ft4.x] = Fantasma;
+    
+    char mov,fm1=0,fm2=0,fm3=0,fm4=0;
     int GameOver=0;
-    int difficult=1;// 1 2 o 3, que el es el tiempo de espera a acción, o colocar el usleep(), que mide en milisegundos en vez de segundos
-    while (!GameOver) {
+    //int difficult=1; 1 2 o 3, que el es el tiempo de espera a acción, o colocar el usleep(), que mide en milisegundos en vez de segundos
+    while (!GameOver && !fm1 && !fm2 && !fm3 && !fm4 ) {
         imprimir(10, 10, tablero);
         scanf(" %c", &mov);
         GameOver = !mov_Pacman(10, 10, tablero, mov, &Pm);
-        mov_Fanta(10,10,tablero,&(Fant_all.Ft1));
-        mov_Fanta(10,10,tablero,&(Fant_all.Ft2));
-        mov_Fanta(10,10,tablero,&(Fant_all.Ft3));
-        mov_Fanta(10,10,tablero,&(Fant_all.Ft4));
-        sleep(difficult);
+        fm1 = !mov_Fanta(10,10,tablero,&(Fant_all.Ft1),&Pm);
+        fm2 = !mov_Fanta(10,10,tablero,&(Fant_all.Ft2),&Pm);
+        fm3 = !mov_Fanta(10,10,tablero,&(Fant_all.Ft3),&Pm);
+        fm4 = !mov_Fanta(10,10,tablero,&(Fant_all.Ft4),&Pm);
+        //sleep(difficult);
     }
+    printf("\nPuntaje total: %d",Pm.extra);
 }
