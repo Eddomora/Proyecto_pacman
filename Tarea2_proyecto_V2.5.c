@@ -3,7 +3,6 @@
 #include <time.h> 
 #include <ctype.h>
 #include <unistd.h>
-//#include <windows.h> esto sirve para ocupar 
 
 #define Pacman 3
 #define Fantasma 4
