@@ -4,6 +4,7 @@
 #include <ctype.h>
 #include <unistd.h>
 
+
 #define Pacman 3
 #define Fantasma 4
 #define max 10000
@@ -43,8 +44,7 @@ int verificar(struct posicion *Pman, struct posicion *Ftma, int fnt_mov){
 
 
 void pos_inicial(int largo, int ancho, int tablero[largo][ancho],struct posicion *PM , struct fantasmas *All_enemies){
-    int cuarto=largo/4;
-    int posX=rand()%cuarto,posY=rand()%cuarto;
+//guarda el lugar inicial
 }
 
 
@@ -53,7 +53,7 @@ int mov_Fanta(int largo, int ancho, int tablero[largo][ancho], struct posicion *
     int mov_aleatorio = rand()%4;
 
     switch (mov_aleatorio){
-
+ 
     case 0:
         if (verificar(Pma, fant, 0)){
             return 0;
@@ -210,3 +210,30 @@ int main(){
     }
     printf("\nPuntaje total: %d",Pm.extra);
 }
+/*
+switch (mov) {
+    case 'w':
+        GameOver = !mov_Pacman(10, 10, tablero, w, &Pm);
+        //render
+        //cambio a arriba el pacman
+        break;
+    case 's':
+        GameOver = !mov_Pacman(10, 10, tablero, s, &Pm);
+        //render
+        //cambio a abajo el pacman
+        break;
+    case 'a':
+        GameOver = !mov_Pacman(10, 10, tablero, a, &Pm);
+        //render
+        //cambio a izq el pacman
+        break;
+    case 'd':
+        GameOver = !mov_Pacman(10, 10, tablero, d, &Pm);
+        //render
+        //cambio a derecha el pacman
+        break;
+
+    default:
+        break;
+}
+*/
