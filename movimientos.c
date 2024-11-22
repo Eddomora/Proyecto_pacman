@@ -12,8 +12,9 @@ void ingresar_posiciones(struct posicion *ente, int largo, int ancho, int **tabl
     }   
 }
 
-//Funcion que 
+//Funcion que verifica si en el siguiente movimiento está el fantasma
 int verificar(struct posicion *Pman, struct posicion *Ftma, int fnt_mov){ 
+    //Switch que en va simulando cada movimiento, arriba, abajo ,derecha e izquierda
     switch (fnt_mov){
         case 0:
             if ((Pman->x == Ftma->x) && (Pman->y == Ftma->y-1))
@@ -33,94 +34,78 @@ int verificar(struct posicion *Pman, struct posicion *Ftma, int fnt_mov){
     return 0;
 }
 
+//Función que verifica si cuando Pacman se mueve a cierta dirección existe algún fantasma
 int verificar_todos(struct posicion *Pman, struct fantasmas *Enemys, int mov) {
     switch (mov) {
-        
     case '0':
         if (Pman->x == Enemys->Ft1.x && Pman->y == Enemys->Ft1.y-1) {
             return 1;
         }
-        
         if (Pman->x == Enemys->Ft2.x && Pman->y == Enemys->Ft2.y-1) {
             return 1;
         }
-        
         if (Pman->x == Enemys->Ft3.x && Pman->y == Enemys->Ft3.y-1) {
             return 1;
         }
-        
         if (Pman->x == Enemys->Ft4.x && Pman->y == Enemys->Ft4.y-1) {
             return 1;
         }
             break;
-
     case '1':
         if (Pman->x == Enemys->Ft1.x && Pman->y == Enemys->Ft1.y+1) {
             return 1;
         }
-        
         if (Pman->x == Enemys->Ft2.x && Pman->y == Enemys->Ft2.y+1) {
             return 1;
         }
-        
         if (Pman->x == Enemys->Ft3.x && Pman->y == Enemys->Ft3.y+1) {
             return 1;
         }
-        
         if (Pman->x == Enemys->Ft4.x && Pman->y == Enemys->Ft4.y+1) {
             return 1;
         }
             break;
-
     case '2':
         if (Pman->x == Enemys->Ft1.x+1 && Pman->y == Enemys->Ft1.y) {
             return 1;
         }
-        
         if (Pman->x == Enemys->Ft2.x+1 && Pman->y == Enemys->Ft2.y) {
             return 1;
         }
-        
         if (Pman->x == Enemys->Ft3.x+1 && Pman->y == Enemys->Ft3.y) {
             return 1;
         }
-        
         if (Pman->x == Enemys->Ft4.x+1 && Pman->y == Enemys->Ft4.y) {
             return 1;
         }
             break;
-
     case '3':
         if (Pman->x == Enemys->Ft1.x-1 && Pman->y == Enemys->Ft1.y) {
             return 1;
         }
-        
         if (Pman->x == Enemys->Ft2.x-1 && Pman->y == Enemys->Ft2.y) {
             return 0;
         }
-        
         if (Pman->x == Enemys->Ft3.x-1 && Pman->y == Enemys->Ft3.y) {
             return 0;
         }
-        
         if (Pman->x == Enemys->Ft4.x-1 && Pman->y == Enemys->Ft4.y) {
             return 0;
         }
-            break;
-        
+            break;   
     default:
         break;
     }
-
     return 0;
 }
 
+//Función que emula el movimiento aleatorio del fantasma
 int mov_Fanta(int largo, int ancho, int **tablero, struct posicion *fant, struct posicion *Pma ,int num_ente ){
     int mov_aleatorio = rand()%4;
 
     switch (mov_aleatorio){
  
-    case 0: //Arriba
+    case 0: //Movimiento hacia Arriba
         if (verificar(Pma, fant, 0)){
             return 0;
         } else if (tablero[((fant->y)-1+largo)%largo][fant->x]==7 || tablero[((fant->y)-1+largo)%largo][fant->x]==0 || tablero[((fant->y)-1+largo)%largo][fant->x]==8){
@@ -133,7 +118,7 @@ int mov_Fanta(int largo, int ancho, int **tablero, struct posicion *fant, struct
         }
         break;
 
-    case 1: //Abajo
+    case 1: //Movimiento hacia Abajo
         if (verificar(Pma, fant, 1)){
             return 0;
         } else if (tablero[((fant->y)+1+largo)%largo][fant->x]==7 || tablero[((fant->y)+1+largo)%largo][fant->x]==0 || tablero[((fant->y)+1+largo)%largo][fant->x]==8){
@@ -146,7 +131,7 @@ int mov_Fanta(int largo, int ancho, int **tablero, struct posicion *fant, struct
         }
         break;
 
-    case 2: //Derecha
+    case 2: //Movimiento hacia la Derecha
         if (verificar(Pma, fant, 2)){
             return 0;
         } else if (tablero[fant->y][((fant->x)+1+ancho)%ancho]==7 || tablero[fant->y][((fant->x)+1+ancho)%ancho]==0 || tablero[fant->y][((fant->x)+1+ancho)%ancho]==8){
@@ -159,7 +144,7 @@ int mov_Fanta(int largo, int ancho, int **tablero, struct posicion *fant, struct
         }
         break;
 
-    case 3: //Izquierda
+    case 3: //Movimiento hacia la Izquierda
         if (verificar(Pma, fant, 3)){
             return 0;
         } else if (tablero[fant->y][((fant->x)-1+ancho)%ancho]==7 || tablero[fant->y][((fant->x)-1+ancho)%ancho]==0 || tablero[fant->y][((fant->x)-1+ancho)%ancho]==8){
@@ -179,12 +164,11 @@ int mov_Fanta(int largo, int ancho, int **tablero, struct posicion *fant, struct
     return 1;
 }
 
+//Funcion que hace el pacman
 int mov_Pacman(int largo, int ancho ,int **tablero ,int move ,struct posicion *pacm, struct fantasmas *enemy){
-    move=tolower(move);
-
+    move=tolower(move)
     switch (move){
-        
-        case 'a': //Izquierda
+        case 'a': //Movimiento hacia la Izquierda
             if (verificar_todos(pacm,enemy,3)){
                 return 0;
             } else if (tablero[pacm->y][((pacm->x)-1+ancho)%ancho]==7 || tablero[pacm->y][((pacm->x)-1+ancho)%ancho]==0 || tablero[pacm->y][((pacm->x)-1+ancho)%ancho]==8){
@@ -196,7 +180,7 @@ int mov_Pacman(int largo, int ancho ,int **tablero ,int move ,struct posicion *p
             }
             break;
         
-        case 'd': //Derecha
+        case 'd': //Movimiento hacia la Derecha
             if (verificar_todos(pacm,enemy,2)){ 
                     return 0;
             } else if (tablero[pacm->y][((pacm->x)+1+ancho)%ancho]==7 || tablero[pacm->y][((pacm->x)+1+ancho)%ancho]==0 || tablero[pacm->y][((pacm->x)+1+ancho)%ancho]==8){
@@ -208,7 +192,7 @@ int mov_Pacman(int largo, int ancho ,int **tablero ,int move ,struct posicion *p
             }
             break;
 
-        case 'w': //Arriba
+        case 'w': //Movimiento hacia Arriba
             if (verificar_todos(pacm,enemy,0)){
                     return 0;
             } else if (tablero[((pacm->y)-1+largo)%largo][pacm->x]==7 || tablero[((pacm->y)-1+largo)%largo][pacm->x]==0 || tablero[((pacm->y)-1+largo)%largo][pacm->x]==8){
@@ -220,7 +204,7 @@ int mov_Pacman(int largo, int ancho ,int **tablero ,int move ,struct posicion *p
             }
             break;
 
-        case 's': //Abajo
+        case 's': //Movimiento hacia Abajo
             if (verificar_todos(pacm,enemy,1)){
                     return 0;
             } else if (tablero[((pacm->y)+1+largo)%largo][pacm->x]==7 || tablero[((pacm->y)+1+largo)%largo][pacm->x]==0 || tablero[((pacm->y)+1+largo)%largo][pacm->x]==8){
