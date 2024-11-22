@@ -110,33 +110,6 @@ int main() {
                 mov1 = getch();
               }
                 GameOver=!mov_Pacman(alto,ancho,tablero,mov1,&Pm,&Fant_all);
-                /*
-                switch (mov) {
-                    case 'w':
-                        GameOver = !mov_Pacman(alto, ancho, tablero, 'w', &Pm, &Fant_all);
-                        //render
-                        //cambio a arriba el pacman
-                        break;
-                    case 's':
-                        GameOver = !mov_Pacman(alto, ancho, tablero, 's', &Pm, &Fant_all);
-                        //render
-                        //cambio a abajo el pacman
-                        break;
-                    case 'a':
-                        GameOver = !mov_Pacman(alto, ancho, tablero, 'a', &Pm, &Fant_all);
-                        //render
-                        //cambio a izq el pacman
-                        break;
-                    case 'd':
-                        GameOver = !mov_Pacman(alto, ancho, tablero, 'd', &Pm, &Fant_all);
-                        //render
-                        //cambio a derecha el pacman
-                        break;
-
-                    default:
-                        break;
-                }
-                */
                 fm1 = !mov_Fanta(alto,ancho,tablero,&(Fant_all.Ft1),&Pm, 3);
                 fm2 = !mov_Fanta(alto,ancho,tablero,&(Fant_all.Ft2),&Pm, 4);
                 fm3 = !mov_Fanta(alto,ancho,tablero,&(Fant_all.Ft3),&Pm, 5);
