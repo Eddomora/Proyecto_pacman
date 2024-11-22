@@ -1,0 +1,161 @@
+#include "funciones.h"
+#include "funciones1.h"
+#include "movimientos.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h> 
+#include <ctype.h>
+#include <unistd.h> 
+#include <termios.h>
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
+#include <SDL2/SDL_ttf.h>
+
+
+typedef struct posicion posicion_t;
+typedef struct fantasmas fantasmas_t;
+
+
+int main(){
+    srand(time(0));
+    init_terminal();
+    posicion_t Pm;
+    fantasmas_t Fant_all;
+
+    Fant_all.Ft1.extra=0;
+    Fant_all.Ft2.extra=0;
+    Fant_all.Ft3.extra=0;
+    Fant_all.Ft4.extra=0;
+    Pm.extra=0;
+
+    char mov,fm1=0,fm2=0,fm3=0,fm4=0;
+    int GameOver=0;
+    
+    int alto = 0;
+    int ancho = 0;
+    dimen("mapa3.txt", &alto, &ancho);
+    int WIDTH = (ancho*SIZE);                        //Definimos el porte de la pantalla en base a nuestro numero de filas y columnas 
+    int HEIGHT = (alto*SIZE);
+    int **tablero = malloc(alto * sizeof(int*));      
+    for (int i = 0; i <alto; i++) {
+    tablero[i] = malloc(ancho * sizeof(int));
+    }
+    cargarMapa("mapa3.txt", tablero , alto , ancho);  
+    //parte de reconocer donde estan los entes (Pacman y fantasmas)
+    
+    ingresar_posiciones(&Pm, alto, ancho, tablero, 2);
+    ingresar_posiciones(&(Fant_all.Ft1), alto, ancho, tablero, 3);
+    ingresar_posiciones(&(Fant_all.Ft2), alto, ancho, tablero, 4);
+    ingresar_posiciones(&(Fant_all.Ft3), alto, ancho, tablero, 5);
+    ingresar_posiciones(&(Fant_all.Ft4), alto, ancho, tablero, 6);
+
+     if (SDL_Init(SDL_INIT_EVERYTHING) !=0) { 
+        return EXIT_FAILURE;
+    }
+  if ((IMG_Init(IMG_INIT_JPG | IMG_INIT_PNG)) == 0) { 
+        SDL_Quit();
+        return EXIT_FAILURE;
+    }
+  if (TTF_Init() == -1) {
+    return EXIT_FAILURE;
+  }
+
+  TTF_Font *font = TTF_OpenFont("/home/bryan/Escritorio/Progra/Tarea semestral/stocky.ttf", 26); // cargamos la fuente para usarla mas adelante
+  
+  // Creamos una ventana para visualizar todo
+  
+  SDL_Window *window;                                                  
+  window = SDL_CreateWindow("PACMAN",SDL_WINDOWPOS_CENTERED,
+			    SDL_WINDOWPOS_CENTERED,WIDTH ,HEIGHT +100,
+			    SDL_WINDOW_SHOWN);
+  //Creamos un rederer
+  SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+   textures textures[] = {
+        {"/home/bryan/Escritorio/Progra/Tarea semestral/Paredes/E1.png", NULL},
+        {"/home/bryan/Escritorio/Progra/Tarea semestral/Paredes/E2.png", NULL},
+        {"/home/bryan/Escritorio/Progra/Tarea semestral/Paredes/E3.png", NULL},
+        {"/home/bryan/Escritorio/Progra/Tarea semestral/Paredes/E4.png", NULL},
+	{"/home/bryan/Escritorio/Progra/Tarea semestral/Items/ball.png", NULL},
+	{"/home/bryan/Escritorio/Progra/Tarea semestral/Items/s.png", NULL},	
+    };
+   anima anima[] = {
+     {"/home/bryan/Escritorio/Progra/Tarea semestral/Items/pacman.png", NULL},
+     {"/home/bryan/Escritorio/Progra/Tarea semestral/Items/pacman2.png", NULL},
+     {"/home/bryan/Escritorio/Progra/Tarea semestral/Items/pacman3.png", NULL},
+     {"/home/bryan/Escritorio/Progra/Tarea semestral/Items/blinky.png", NULL},
+     {"/home/bryan/Escritorio/Progra/Tarea semestral/Items/blinky1.png", NULL},
+     {"/home/bryan/Escritorio/Progra/Tarea semestral/Items/clyde.png", NULL},
+     {"/home/bryan/Escritorio/Progra/Tarea semestral/Items/clyde1.png", NULL},
+     {"/home/bryan/Escritorio/Progra/Tarea semestral/Items/inky.png", NULL},
+     {"/home/bryan/Escritorio/Progra/Tarea semestral/Items/inky1.png", NULL},
+     {"/home/bryan/Escritorio/Progra/Tarea semestral/Items/pinky.png", NULL},
+     {"/home/bryan/Escritorio/Progra/Tarea semestral/Items/pinky1.png", NULL},
+    };
+
+   int v = 2;                       // Variables para las vidas 
+   SDL_Event event;
+   Uint32 tiempoAnterior = 0; 
+   int tiempoAnimacion = 0;
+   char mov1 = 'd';
+    
+    while (!GameOver && !fm1 && !fm2 && !fm3 && !fm4 ) {
+      	usleep(100000); 
+	if (kbhit()) {
+	  mov1 = getchar(); // Leer la tecla presionada
+	  if (mov1 == 'w') {
+	    
+	  } else if (mov1 == 's') {
+	    
+	  } else if (mov1 == 'a') {
+	    
+	  } else if (mov1 == 'd') {
+	    
+	  } else if (mov1 == 'p') {
+	    
+	  }
+	}
+	
+	GameOver=!mov_Pacman(alto,ancho,tablero,mov1,&Pm,&Fant_all);
+	fm1 = !mov_Fanta(alto,ancho,tablero,&(Fant_all.Ft1),&Pm, 3);
+	fm2 = !mov_Fanta(alto,ancho,tablero,&(Fant_all.Ft2),&Pm, 4);
+	fm3 = !mov_Fanta(alto,ancho,tablero,&(Fant_all.Ft3),&Pm, 5);
+	fm4 = !mov_Fanta(alto,ancho,tablero,&(Fant_all.Ft4),&Pm, 6);
+	
+	for (int i = 0; i < sizeof(textures) / sizeof(textures[0]); i++) {
+	  textures[i].texture = cargarTextura(renderer, textures[i].r);
+	}
+	for(int i = 0; i< sizeof(anima)/sizeof(anima[0]); i++){
+	  anima[i].texture = cargarTextura(renderer, anima[i].r);
+	}
+	
+	Uint32 tiempoActual = SDL_GetTicks();  // Obtener el tiempo actual en milisegundos
+	int tiempoTranscurrido = (tiempoActual - tiempoAnterior) / 200;  // Convertir a un valor optimo
+	if (tiempoTranscurrido != tiempoAnimacion) {
+	  tiempoAnimacion = tiempoTranscurrido;  // Actualizar la animación cada segundo
+	}
+	
+	while(SDL_PollEvent(&event)){   //Ciclo para que la ventan este activa hasta que se cierre manualmente 
+	  if (event.type == SDL_QUIT){ 
+	    return 0;
+	  }
+	}
+	SDL_RenderClear(renderer);                    // Limpiamos la pantalla
+	
+	RenderizarMapa(renderer, textures, anima, tiempoAnimacion, tablero, alto, ancho, font,  Pm.extra, v, mov1);
+	
+	Rendtexto(renderer, font,  Pm.extra, v); // Llamamos a la funcion
+	SDL_RenderPresent(renderer);
+	for (int i = 0; i < sizeof(textures) / sizeof(textures[0]); i++) {
+	  SDL_DestroyTexture(textures[i].texture);
+	}
+	for(int i = 0; i< sizeof(anima)/sizeof(anima[0]); i++){
+	  SDL_DestroyTexture(anima[i].texture);
+	}
+	
+    }  
+    reset_terminal();
+    SDL_DestroyRenderer(renderer);
+    SDL_DestroyWindow(window);
+    SDL_Quit();
+    return 0;
+}
