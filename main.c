@@ -57,21 +57,6 @@ typedef struct posicion posicion_t;
 typedef struct fantasmas fantasmas_t;
 
 
-void imprimir(int L, int A, int **tablero){
-    printf("\n\n\n\n");
-    for (int i = 0; i < L; i++)
-    {
-        for (int j = 0; j < A; j++)
-        {
-            printf("%d  ",tablero[i][j]);
-        }
-        printf("\n");
-        
-    }
-    printf("\n\n");
-}
-
-
 int main() {
     srand(time(0));
     posicion_t Pm;
