@@ -16,16 +16,16 @@ void ingresar_posiciones(struct posicion *ente, int largo, int ancho, int **tabl
 int verificar(struct posicion *Pman, struct posicion *Ftma, int fnt_mov, int largo, int ancho){ 
     //Switch que en va simulando cada movimiento, arriba, abajo ,derecha e izquierda
     switch (fnt_mov){
-        case 0:
+        case 0: //Hacia arriba
             if ((Pman->x == Ftma->x) && (Pman->y == (Ftma->y)-1+largo)%largo)
             return 1;
-        case 1:
+        case 1: //Hacia abajo
             if ((Pman->x == Ftma->x) && (Pman->y == ((Ftma->y)+1+largo)%largo))
             return 1;
-        case 2:
+        case 2: //Hacia la Derecha
             if ((Pman->x == ((Ftma->x)+1+ancho)%ancho) && (Pman->y == Ftma->y))
             return 1;
-        case 3:
+        case 3: //Hacia la Izquierda
             if ((Pman->x == ((Ftma->x)-1+ancho)%ancho) && (Pman->y == Ftma->y))
             return 1;
         default:
@@ -51,7 +51,7 @@ int verificar_todos(struct posicion *Pman, struct fantasmas *Enemys, int mov, in
             return 1;
         }
             break;
-    case '1': //Verificacion hacia abajo
+    case '1': //Verificacion hacia Abajo
         if (Pman->x == Enemys->Ft1.x && ((Pman->y)+1+largo)%largo == Enemys->Ft1.y) {
             return 1;
         }
@@ -108,12 +108,20 @@ int mov_Fanta(int largo, int ancho, int **tablero, struct posicion *fant, struct
     case 0: //Movimiento hacia Arriba
         if (verificar(Pma, fant, 0, largo, ancho)){
             return 0;
+        //Movimiento que se realiza solo si la casilla sgte es un numero valido (0,7,8)
         } else if (tablero[((fant->y)-1+largo)%largo][fant->x]==7 || tablero[((fant->y)-1+largo)%largo][fant->x]==0 || tablero[((fant->y)-1+largo)%largo][fant->x]==8){
+            //Se deja en la posicion actual, el numero que habia recolectado anteriormente
             tablero[fant->y][fant->x]= fant->extra;
+            
+            //Recoleccion del numero que está en la posicion a donde se va a mover
             if (tablero[((fant->y)-1+largo)%largo][fant->x]==7) fant->extra=7; 
             else if (tablero[((fant->y)-1+largo)%largo][fant->x]==8) fant->extra=8; 
             else fant->extra=0;
+            
+            //Actualizacion de la coordenada
             fant->y = ((fant->y)-1+largo)%largo;
+            
+            //Impresion del ente en la nueva posicion
             tablero[fant->y][fant->x]=num_ente;
         }
         break;
@@ -121,12 +129,20 @@ int mov_Fanta(int largo, int ancho, int **tablero, struct posicion *fant, struct
     case 1: //Movimiento hacia Abajo
         if (verificar(Pma, fant, 1, largo ,ancho)){
             return 0;
+        //Movimiento que se realiza solo si la casilla sgte es un numero valido (0,7,8)
         } else if (tablero[((fant->y)+1+largo)%largo][fant->x]==7 || tablero[((fant->y)+1+largo)%largo][fant->x]==0 || tablero[((fant->y)+1+largo)%largo][fant->x]==8){
+            //Se deja en la posicion actual, el numero que habia recolectado anteriormente
             tablero[fant->y][fant->x]= fant->extra;
+
+            //Recoleccion del numero que está en la posicion a donde se va a mover
             if (tablero[((fant->y)+1+largo)%largo][fant->x]==7) fant->extra=7;
             else if (tablero[((fant->y)+1+largo)%largo][fant->x]==8) fant->extra=8;
             else fant->extra=0;
+
+            //Actualizacion de la coordenada
             fant->y = ((fant->y)+1+largo)%largo;
+
+            //Impresion del fantasma en la nueva posicion
             tablero[fant->y][fant->x]=num_ente;
         }
         break;
@@ -134,12 +150,20 @@ int mov_Fanta(int largo, int ancho, int **tablero, struct posicion *fant, struct
     case 2: //Movimiento hacia la Derecha
         if (verificar(Pma, fant, 2, largo, ancho)){
             return 0;
+        //Movimiento que se realiza solo si la casilla sgte es un numero valido (0,7,8)
         } else if (tablero[fant->y][((fant->x)+1+ancho)%ancho]==7 || tablero[fant->y][((fant->x)+1+ancho)%ancho]==0 || tablero[fant->y][((fant->x)+1+ancho)%ancho]==8){
+            //Se deja en la posicion actual, el numero que habia recolectado anteriormente
             tablero[fant->y][fant->x]= fant->extra;
+
+            //Recoleccion del numero que está en la posicion a donde se va a mover
             if (tablero[fant->y][((fant->x)+1+ancho)%ancho]==7) fant->extra=7; 
             else if (tablero[fant->y][((fant->x)+1+ancho)%ancho]==8) fant->extra=8;
             else fant->extra=0;
+
+            //Actualizacion de la coordenada
             fant->x = ((fant->x)+1+ancho)%ancho;
+            
+            //Impresion del fantasma en la nueva posicion
             tablero[fant->y][fant->x]=num_ente;
         }
         break;
@@ -147,12 +171,20 @@ int mov_Fanta(int largo, int ancho, int **tablero, struct posicion *fant, struct
     case 3: //Movimiento hacia la Izquierda
         if (verificar(Pma, fant, 3, largo, ancho)){
             return 0;
+        //Movimiento que se realiza solo si la casilla sgte es un numero valido (0,7,8)
         } else if (tablero[fant->y][((fant->x)-1+ancho)%ancho]==7 || tablero[fant->y][((fant->x)-1+ancho)%ancho]==0 || tablero[fant->y][((fant->x)-1+ancho)%ancho]==8){
+            //Se deja en la posicion actual, el numero que habia recolectado anteriormente
             tablero[fant->y][fant->x]= fant->extra;
+            
+            //Recoleccion del numero que está en la posicion a donde se va a mover
             if (tablero[fant->y][((fant->x)-1+ancho)%ancho]==7) fant->extra=7;
             else if (tablero[fant->y][((fant->x)-1+ancho)%ancho]==8) fant->extra=8;  
             else fant->extra=0;
+
+            //Actualizacion de la coordenada
             fant->x = ((fant->x)-1+ancho)%ancho;
+
+            //Impresion del fantasma en la nueva posicion
             tablero[fant->y][fant->x]=num_ente;
         }
         break;
@@ -171,11 +203,19 @@ int mov_Pacman(int largo, int ancho ,int **tablero ,int move ,struct posicion *p
         case 'a': //Movimiento hacia la Izquierda
             if (verificar_todos(pacm,enemy,3,largo,ancho)){
                 return 0;
+            //Movimiento que se realiza solo si la casilla sgte es un numero valido (0,7,8)
             } else if (tablero[pacm->y][((pacm->x)-1+ancho)%ancho]==7 || tablero[pacm->y][((pacm->x)-1+ancho)%ancho]==0 || tablero[pacm->y][((pacm->x)-1+ancho)%ancho]==8){
+            //Se deja en la posicion actual un 0 que es el espacio vacio
             tablero[pacm->y][pacm->x]=0;
+
+            //Suma de puntaje si la sgte posicion es un 7 u 8
             if (tablero[pacm->y][((pacm->x)-1+ancho)%ancho]==7) (pacm->extra)+=10; 
             else if (tablero[pacm->y][((pacm->x)-1+ancho)%ancho]==8) (pacm->extra)+=50; 
+
+            //Actualizacion de la coordenada
             pacm->x = ((pacm->x)-1+ancho)%ancho;
+
+            //Impresion del pacman en la nueva posicion
             tablero[pacm->y][pacm->x]=2;
             }
             break;
@@ -183,11 +223,19 @@ int mov_Pacman(int largo, int ancho ,int **tablero ,int move ,struct posicion *p
         case 'd': //Movimiento hacia la Derecha
             if (verificar_todos(pacm,enemy,2,largo,ancho)){ 
                     return 0;
+            //Movimiento que se realiza solo si la casilla sgte es un numero valido (0,7,8)
             } else if (tablero[pacm->y][((pacm->x)+1+ancho)%ancho]==7 || tablero[pacm->y][((pacm->x)+1+ancho)%ancho]==0 || tablero[pacm->y][((pacm->x)+1+ancho)%ancho]==8){
+                //Se deja en la posicion actual un 0 que es el espacio vacio
                 tablero[pacm->y][pacm->x]=0;
+
+                //Suma de puntaje si la sgte posicion es un 7 u 8
                 if (tablero[pacm->y][((pacm->x)+1+ancho)%ancho]==7) (pacm->extra)+=10; 
                 else if (tablero[pacm->y][((pacm->x)+1+ancho)%ancho]==8) (pacm->extra)+=50; 
+
+                //Actualizacion de la coordenada
                 pacm->x = ((pacm->x)+1+ancho)%ancho;
+
+                //Impresion del pacman en la nueva posicion
                 tablero[pacm->y][pacm->x]=2;
             }
             break;
@@ -195,11 +243,19 @@ int mov_Pacman(int largo, int ancho ,int **tablero ,int move ,struct posicion *p
         case 'w': //Movimiento hacia Arriba
             if (verificar_todos(pacm,enemy,0,largo,ancho)){
                     return 0;
+            //Movimiento que se realiza solo si la casilla sgte es un numero valido (0,7,8)
             } else if (tablero[((pacm->y)-1+largo)%largo][pacm->x]==7 || tablero[((pacm->y)-1+largo)%largo][pacm->x]==0 || tablero[((pacm->y)-1+largo)%largo][pacm->x]==8){
+                //Se deja en la posicion actual un 0 que es el espacio vacio
                 tablero[pacm->y][pacm->x]=0;
+
+                //Suma de puntaje si la sgte posicion es un 7 u 8
                 if (tablero[((pacm->y)-1+largo)%largo][pacm->x]==7) (pacm->extra)+=10; 
                 else if (tablero[((pacm->y)-1+largo)%largo][pacm->x]==8) (pacm->extra)+=50; 
+
+                //Actualizacion de la coordenada
                 pacm->y = ((pacm->y)-1+largo)%largo;
+
+                //Impresion del pacman en la nueva posicion
                 tablero[pacm->y][pacm->x]=2;
             }
             break;
@@ -207,11 +263,19 @@ int mov_Pacman(int largo, int ancho ,int **tablero ,int move ,struct posicion *p
         case 's': //Movimiento hacia Abajo
             if (verificar_todos(pacm,enemy,1,largo,ancho)){
                     return 0;
+            //Movimiento que se realiza solo si la casilla sgte es un numero valido (0,7,8)    
             } else if (tablero[((pacm->y)+1+largo)%largo][pacm->x]==7 || tablero[((pacm->y)+1+largo)%largo][pacm->x]==0 || tablero[((pacm->y)+1+largo)%largo][pacm->x]==8){
+                //Se deja en la posicion actual un 0 que es el espacio vacio
                 tablero[pacm->y][pacm->x]=0;
+
+                //Suma de puntaje si la sgte posicion es un 7 u 8
                 if (tablero[((pacm->y)+1+largo)%largo][pacm->x]==7) (pacm->extra)+=10; 
                 else if (tablero[((pacm->y)+1+largo)%largo][pacm->x]==8) (pacm->extra)+=50; 
+
+                //Actualizacion de la coordenada
                 pacm->y = ((pacm->y)+1+largo)%largo;
+
+                //Impresion del pacman en la nueva posicion
                 tablero[pacm->y][pacm->x]=2;
             }
             break;
