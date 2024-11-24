@@ -21,8 +21,8 @@ struct fantasmas {
 
 // Declaración de funciones
 void ingresar_posiciones(struct posicion *ente, int largo, int ancho, int **tablero, int num_ente);
-int verificar(struct posicion *Pman, struct posicion *Ftma, int fnt_mov);
-int verificar_todos(struct posicion *Pman, struct fantasmas *Enemys, int mov);
+int verificar(struct posicion *Pman, struct posicion *Ftma, int fnt_mov, int largo, int ancho);
+int verificar_todos(struct posicion *Pman, struct fantasmas *Enemys, int mov, int largo, int ancho);
 int mov_Fanta(int largo, int ancho, int **tablero, struct posicion *fant, struct posicion *Pma, int num_ente);
 int mov_Pacman(int largo, int ancho, int **tablero, int move, struct posicion *pacm, struct fantasmas *enemy);
 
