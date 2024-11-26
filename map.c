@@ -40,23 +40,3 @@ void cargarMapa(const char * nombreMapa, int ** A, int f, int c){         //Func
   }
   fclose(file);
 }
-
-
-//Se definen las estructuras con otro nombre
-typedef struct posicion posicion_t;
-typedef struct fantasmas fantasmas_t;
-
-
-void imprimir(int L, int A, int **tablero){
-    printf("\n\n\n\n");
-    for (int i = 0; i < L; i++)
-    {
-        for (int j = 0; j < A; j++)
-        {
-            printf("%d  ",tablero[i][j]);
-        }
-        printf("\n");
-        
-    }
-    printf("\n\n");
-}
