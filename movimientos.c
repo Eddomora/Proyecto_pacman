@@ -84,13 +84,13 @@ int verificar_todos(struct posicion *Pman, struct fantasmas *Enemys, int mov, in
             return 1;
         }
         if (((Pman->x)-1+ancho)%ancho == Enemys->Ft2.x && Pman->y == Enemys->Ft2.y) {
-            return 0;
+            return 1;
         }
         if (((Pman->x)-1+ancho)%ancho == Enemys->Ft3.x && Pman->y == Enemys->Ft3.y) {
-            return 0;
+            return 1;
         }
         if (((Pman->x)-1+ancho)%ancho == Enemys->Ft4.x && Pman->y == Enemys->Ft4.y) {
-            return 0;
+            return 1;
         }
             break;   
     default:
